@@ -7,57 +7,53 @@ program test;
 uses
   System.SysUtils;
 
+
 var
-  arr: array[1..11] of integer;
-  i, j, randomNum, evenIndex: integer;
-  evenArr: array[1..11] of integer;
+  arr: array[0..10] of Integer; // deklarasi array integer dengan kapasitas 11
+  i, j, temp: Integer;
 
 begin
+  // memasukkan angka acak ke dalam array
   Randomize;
-
-  // 1. Buat array bertipe data integer dengan kapasitas 11 datanya bersisi angka acak yang unik dari 1 sampai dengan 1000
-  for i := 1 to 11 do
+  for i := 0 to 10 do
   begin
-    // generate unique random number
-    repeat
-      randomNum := Random(1000) + 1;
-    until not (randomNum in arr);
-
-    // assign random number to array
-    arr[i] := randomNum;
+    arr[i] := Random(1000) + 1;
+    for j := 0 to i - 1 do
+    begin
+      // memastikan angka acak yang dimasukkan unik
+      if arr[j] = arr[i] then
+      begin
+        i := i - 1;
+        Break;
+      end;
+    end;
   end;
 
-  // 2. tampilkan hasilnya yang berisi index array dan nilai array
-  for i := 1 to 11 do
-  begin
+  // menampilkan isi array dengan indexnya
+  WriteLn('Array awal:');
+  for i := 0 to 10 do
     WriteLn('Index ', i, ': ', arr[i]);
-  end;
 
-  // 3. ambil data bernilai genap
-  evenIndex := 0;
-  for i := 1 to 11 do
+  // mengurutkan array secara descending menggunakan algoritma bubble sort
+  for i := 0 to 9 do
   begin
-    if arr[i] mod 2 = 0 then
+    for j := i + 1 to 10 do
     begin
-      evenIndex := evenIndex + 1;
-      evenArr[evenIndex] := arr[i];
+      if arr[i] < arr[j] then
+      begin
+        temp := arr[i];
+        arr[i] := arr[j];
+        arr[j] := temp;
+      end;
     end;
   end;
 
-  // 4. tampilkan hasilnya
-  if evenIndex > 0 then
-  begin
-    WriteLn('Data genap:');
-    for i := 1 to evenIndex do
-    begin
-      WriteLn(evenArr[i]);
-    end;
-  end
-  else
-  begin
-    WriteLn('Tidak ada data genap');
-  end;
+  // menampilkan isi array yang sudah diurutkan secara descending dengan indexnya
+  WriteLn('Array setelah diurutkan secara descending:');
+  for i := 0 to 10 do
+    WriteLn('Index ', i, ': ', arr[i]);
 
   ReadLn;
 end.
+
 
